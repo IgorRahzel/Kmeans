@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn.metrics import silhouette_score
+from sklearn.metrics import silhouette_score, pairwise_distances
 
 def minkowski_distance(x1,x2,p):
     
@@ -18,6 +18,7 @@ def distance_matrix(data,n,p):
         for j in range(col_limit):
             if j < i:
                 matrix[i,j] = minkowski_distance(data[i],data[j],p)
+                matrix[j,i] = matrix[i,j]
             if i == j:
                 col_limit+=1
     return matrix
@@ -36,10 +37,7 @@ def kmeans(k,num_points,data,p,dist_matrix):
             for i in range(data.shape[0]):
                 sum_dist = 0
                 for c in C:
-                    if i < c:
-                        dist = dist_matrix[c,i]
-                    else:
-                        dist = dist_matrix[i,c]
+                    dist = dist_matrix[c,i]
                     sum_dist += dist
                 avg_dist = sum_dist/C.size
                 if avg_dist > max_dist:
@@ -56,10 +54,7 @@ def solution_radius(C,data):
     for i in range(data.shape[0]):
         dist_to_centers = []
         for center in C:
-            if i < center:
-                dist_to_centers.append(dist_matrix[center,i])
-            else:
-                dist_to_centers.append(dist_matrix[i,center])
+            dist_to_centers.append(dist_matrix[center,i])
         if(min(dist_to_centers) > radius):
             radius = min(dist_to_centers)
     
@@ -92,6 +87,6 @@ with open("teste.txt",'r') as file:
     r = solution_radius(C,data_matrix)
     print('radius: ',r)
     pointslabels = labels(data_matrix,C)
-    silhouette = silhouette_score(data_matrix, pointslabels)
+    silhouette = silhouette_score(dist_matrix, pointslabels,metric='precomputed')
     print("Silhouette score:", silhouette)
 
