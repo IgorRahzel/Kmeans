@@ -32,18 +32,15 @@ def kmeans(k,num_points,data,p,dist_matrix):
         center = np.random.choice(data.shape[0])
         C = np.array([center])
         while C.size < k:
-            max_dist = 0
             new_center = center
+            distance = []
             for i in range(data.shape[0]):
-                sum_dist = 0
+                distance_i_to_center = []
                 for c in C:
-                    dist = dist_matrix[c,i]
-                    sum_dist += dist
-                avg_dist = sum_dist/C.size
-                if avg_dist > max_dist:
-                    max_dist = avg_dist
-                    new_center = i
-            #includes point of max average distance from the other centers as a center
+                    distance_i_to_center.append(dist_matrix[c,i])
+                distance.append([np.max(distance_i_to_center)])
+            new_center = np.argmax(distance)
+            #includes farthest point from the centers as center
             C = np.append(C,new_center)
     
         return C
