@@ -66,24 +66,17 @@ def labels(data,C):
         labels[i] = np.argmin(distances)
     return labels
 
-#Simulando leitura dos dados uma vez que o link não funciona
-with open("teste.txt",'r') as file:
 
-    lines = file.readlines()
-
-    data_matrix = []
-
-    for line in lines:
-        coordinates = line.split()
-        coordinates = [float(val) for val in coordinates]
-        data_matrix.append(coordinates)
-    
-    data_matrix = np.array(data_matrix)     
-    dist_matrix = distance_matrix(data_matrix,5,2)
-    C = kmeans(3,5,data_matrix,2,dist_matrix)
-    r = solution_radius(C,data_matrix)
-    print('radius: ',r)
-    pointslabels = labels(data_matrix,C)
-    silhouette = silhouette_score(dist_matrix, pointslabels,metric='precomputed')
-    print("Silhouette score:", silhouette)
+csv_file = 'data.csv'
+# Load the CSV file into a NumPy array
+data_matrix = np.genfromtxt(csv_file, delimiter=';')
+data_matrix = np.delete(data_matrix,0,axis=0)
+num_rows = data_matrix.shape[0]
+dist_matrix = distance_matrix(data_matrix,num_rows,2)
+C = kmeans(3,num_rows,data_matrix,2,dist_matrix)
+r = solution_radius(C,data_matrix)
+print('radius: ',r)
+pointslabels = labels(data_matrix,C)
+silhouette = silhouette_score(dist_matrix, pointslabels,metric='precomputed')
+print("Silhouette score:", silhouette)
 
