@@ -1,5 +1,8 @@
 import numpy as np
+import time
 from sklearn.metrics import silhouette_score, pairwise_distances
+
+start_time = time.time()
 
 def minkowski_distance(x1,x2,p):
     
@@ -67,9 +70,9 @@ def labels(data,C):
     return labels
 
 
-csv_file = 'data.csv'
+csv_file = 'TCGA_InfoWithGrade.csv'
 # Load the CSV file into a NumPy array
-data_matrix = np.genfromtxt(csv_file, delimiter=';')
+data_matrix = np.genfromtxt(csv_file, delimiter=',')
 data_matrix = np.delete(data_matrix,0,axis=0)
 num_rows = data_matrix.shape[0]
 dist_matrix = distance_matrix(data_matrix,num_rows,2)
@@ -79,4 +82,5 @@ print('radius: ',r)
 pointslabels = labels(data_matrix,C)
 silhouette = silhouette_score(dist_matrix, pointslabels,metric='precomputed')
 print("Silhouette score:", silhouette)
+print("--- %s seconds ---" % (time.time() - start_time))
 
