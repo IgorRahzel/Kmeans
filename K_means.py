@@ -1,6 +1,6 @@
 import numpy as np
 import time
-from sklearn.metrics import silhouette_score, pairwise_distances
+from sklearn.metrics import silhouette_score, adjusted_rand_score
 
 start_time = time.time()
 
@@ -69,6 +69,10 @@ def labels(data,C):
         labels[i] = np.argmin(distances)
     return labels
 
+#Create a ground truth label for the adjusted rand index
+def generate_labels(num_instances, num_centers,rng):
+    return rng.randint(low=0, high=num_centers, size=num_instances)
+
 
 csv_file = 'TCGA_InfoWithGrade.csv'
 # Load the CSV file into a NumPy array
@@ -82,5 +86,9 @@ print('radius: ',r)
 pointslabels = labels(data_matrix,C)
 silhouette = silhouette_score(dist_matrix, pointslabels,metric='precomputed')
 print("Silhouette score:", silhouette)
+rng = np.random.RandomState(0)
+ground_truth_labels = generate_labels(num_rows,3,rng)
+ARI = adjusted_rand_score(ground_truth_labels, pointslabels)
+print("ARI:",ARI)
 print("--- %s seconds ---" % (time.time() - start_time))
 
