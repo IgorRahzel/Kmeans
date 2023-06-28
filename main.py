@@ -1,20 +1,29 @@
-import sys
+import argparse
 import time
+import numpy as np
 from K_means import Kmeans_aprox
 from metrics import metrics
 
-#esses dados serã recebidos pelo parser a ser implementado
-k = 2
-p = 2
-column = 0
+parser = argparse.ArgumentParser(description='parameters for the kmeans algorithm')
+parser.add_argument('-f','--file',type = str,help='file containing dataset')
+parser.add_argument('-k','--num_clusters',type=int,help = 'number of clusters')
+parser.add_argument('-p','--minkowski_order',type = int,help = 'minkowski order')
+parser.add_argument('-c','--column',type = int, help = 'column of target atribute')
+args = parser.parse_args()
+#esses dados serão recebidos pelo parser a ser implementado
+k = args.num_clusters
+p = args.minkowski_order
+column = args.column
 
 start_time = time.time()
 kmeans = Kmeans_aprox(k=k,p=p)
-csv_file = 'TCGA_InfoWithGrade.csv'
-kmeans.get_data(csv_file)
+file = args.file
+kmeans.get_data(file)
 Metrics = metrics()
 kmeans.data = Metrics.get_ground_truth(kmeans.data,column)
 kmeans.get_distance_matrix()
+
+results_matrix = np.zeros((30,4))
 
 for i in range(30):
     kmeans.kmeans()
@@ -26,8 +35,24 @@ for i in range(30):
     runtime = time.time() - start_time
     start_time = time.time()
 
-    print("------------teste",i,"------------")
-    Metrics.print_metrics()
-    print('runtime: ',runtime)
-    print('------------------------------------\n\n')
+    results_matrix[i,0] = Metrics.radius
+    results_matrix[i,1] = Metrics.silhouette
+    results_matrix[i,2] = Metrics.ARI
+    results_matrix[i,3] = runtime
+
+
+print(results_matrix)
+print('------------------------------------\n\n')
+print('std Radius: ', np.std(results_matrix[:,0]))
+print('std silhouette: ', np.std(results_matrix[:,1]))
+print('std ARI: ', np.std(results_matrix[:,2]))
+print('std runtime: ', np.std(results_matrix[:,3]))
+
+print('------------------------------------\n\n')
+print('mean Radius: ', np.mean(results_matrix[:,0]))
+print('mean silhouette: ', np.mean(results_matrix[:,1]))
+print('mean ARI: ', np.mean(results_matrix[:,2]))
+print('mean runtime: ', np.mean(results_matrix[:,3]))
+
+
 

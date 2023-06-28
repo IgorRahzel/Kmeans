@@ -1,9 +1,6 @@
 import numpy as np
-import time
 from distance import minkowski_metric
 from metrics import metrics
-
-start_time = time.time()
 
 class Kmeans_aprox:
     
