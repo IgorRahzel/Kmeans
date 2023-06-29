@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["-f","TCGA_InfoWithGrade.csv","-k","2","-p","2","-c","0"]
+            "args": ["-f","wifi_localization.txt","-k","4","-p","4","-c","-1","-d"," ","-sh","0"]
         }
     ]
 }

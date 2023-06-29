@@ -14,9 +14,13 @@ class Kmeans_aprox:
         self.k = k
         self.p = p
     
-    def get_data(self,file):
-        self.data = np.genfromtxt(file, delimiter=',')
-        self.data = np.delete(self.data,0,axis=0)
+    def get_data(self,file,delimiter,skip_header):
+        if delimiter == ' ':
+            self.data =  np.genfromtxt(file)
+        else:
+            self.data = np.genfromtxt(file, delimiter=delimiter,skip_header=skip_header)
+        #Remove row with attributes names
+        self.data = np.delete(self.data,0,axis=0) 
 
     def get_distance_matrix(self):
         metric = minkowski_metric(self.p)

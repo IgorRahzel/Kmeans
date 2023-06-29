@@ -5,7 +5,7 @@ import time
 
 start_time = time.time()
 
-csv_file = 'TCGA_InfoWithGrade.csv'
+csv_file = 'spambase.data '
 # Load the CSV file into a NumPy array
 data_matrix = np.genfromtxt(csv_file, delimiter=',')
 data_matrix = np.delete(data_matrix,0,axis=0)

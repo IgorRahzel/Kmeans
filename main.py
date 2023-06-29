@@ -9,6 +9,8 @@ parser.add_argument('-f','--file',type = str,help='file containing dataset')
 parser.add_argument('-k','--num_clusters',type=int,help = 'number of clusters')
 parser.add_argument('-p','--minkowski_order',type = int,help = 'minkowski order')
 parser.add_argument('-c','--column',type = int, help = 'column of target atribute')
+parser.add_argument('-d','--delimiter',type = str,help = 'character used to separete data')
+parser.add_argument('-sh','--skip_header',type = int,help = 'skips headear from data')
 args = parser.parse_args()
 #esses dados serão recebidos pelo parser a ser implementado
 k = args.num_clusters
@@ -18,7 +20,7 @@ column = args.column
 start_time = time.time()
 kmeans = Kmeans_aprox(k=k,p=p)
 file = args.file
-kmeans.get_data(file)
+kmeans.get_data(file,args.delimiter,args.skip_header)
 Metrics = metrics()
 kmeans.data = Metrics.get_ground_truth(kmeans.data,column)
 kmeans.get_distance_matrix()
