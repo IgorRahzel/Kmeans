@@ -29,7 +29,7 @@ results_matrix = np.zeros((30,4))
 
 for i in range(30):
     kmeans.kmeans()
-    Metrics.compute_labels(kmeans.data,kmeans.C,kmeans.p)
+    Metrics.compute_labels(kmeans.data,kmeans.distance_matrix,kmeans.C)
     Metrics.solution_radius(kmeans.distance_matrix,kmeans.data,kmeans.C)
     Metrics.compute_silhouette(kmeans.distance_matrix)
     Metrics.compute_ARI()

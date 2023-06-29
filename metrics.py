@@ -33,13 +33,12 @@ class metrics:
         self.radius = radius
 
     # Indetify the label of each instance
-    def compute_labels(self,data,C,p):
-        m = minkowski_metric(p)
+    def compute_labels(self,data,distance_matrix,C):
         labels = np.zeros(data.shape[0])
         for i, point in enumerate(data):
             distances = []
             for center in C:
-                distances.append(m.minkowski_distance(point, data[center]))
+                distances.append(distance_matrix[i,center])
             labels[i] = np.argmin(distances)
         self.labels = labels
     
