@@ -1,7 +1,7 @@
 import argparse
 import time
 import numpy as np
-from K_means import Kmeans_aprox
+from Kmeans_aprox import Kmeans_aprox
 from metrics import metrics
 
 parser = argparse.ArgumentParser(description='parameters for the kmeans algorithm')
@@ -46,15 +46,23 @@ for i in range(30):
 print(results_matrix)
 print('------------------------------------\n\n')
 print('std Radius: ', np.std(results_matrix[:,0]))
-print('std silhouette: ', np.std(results_matrix[:,1]))
-print('std ARI: ', np.std(results_matrix[:,2]))
-print('std runtime: ', np.std(results_matrix[:,3]))
-
-print('------------------------------------\n\n')
 print('mean Radius: ', np.mean(results_matrix[:,0]))
+print('\n\n')
+print('std silhouette: ', np.std(results_matrix[:,1]))
 print('mean silhouette: ', np.mean(results_matrix[:,1]))
+print('\n\n')
+
+print('std ARI: ', np.std(results_matrix[:,2]))
 print('mean ARI: ', np.mean(results_matrix[:,2]))
+print('\n\n')
+
+print('std runtime: ', np.std(results_matrix[:,3]))
 print('mean runtime: ', np.mean(results_matrix[:,3]))
+print('\n\n')
+print('------------------------------------\n\n')
+
+
+
 
 
 

@@ -1,6 +1,6 @@
 import numpy as np
 
-class minkowski_metric:
+class minkowski:
     
     p = None
 

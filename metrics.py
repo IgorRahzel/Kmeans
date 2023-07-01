@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.metrics import silhouette_score, adjusted_rand_score
-from distance import minkowski_metric
+from minkowski import minkowski
 
 class metrics:
     ground_truth_label = None
